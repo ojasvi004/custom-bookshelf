@@ -1,25 +1,50 @@
-"use client"
+"use client";
 
-import axios from 'axios';
-import React, { useEffect } from 'react';
+import Layout from "../components/Layout";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import CreateBookshelf from "../components/CreateBookshelf";
 
 const Dashboard = () => {
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('/api/me');
-                console.log(response.data);
-            } catch (error) {
-                console.error('error fetching data:', error);
-            }
-        };
+  const [userId, setUserId] = useState("");
 
-        fetchData(); 
-    }, []); 
+  interface Bookshelf {
+    id: string;
+    name: string;
+  }
 
-    return (
-        <div>Dashboard</div>
-    );
-}
+  const [bookshelves, setBookshelves] = useState<Bookshelf[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("/api/me");
+        setUserId(response.data.data.id);
+        setBookshelves(response.data.data.shelves);
+        console.log(response.data);
+          console.log("bookshelves", response.data.data.shelves);
+          if (response.data.data.shelves.length > 0) {
+              console.log(response.data.data.shelves[0].name);
+              
+          }    
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  return (
+    <Layout>
+      <div className="flex justify-between">
+        {userId && <CreateBookshelf userId={userId} />}
+        <div className="ml-auto mr-4 mt-2">
+        </div>
+        
+      </div>
+    </Layout>
+  );
+};
 
 export default Dashboard;

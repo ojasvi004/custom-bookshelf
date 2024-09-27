@@ -23,7 +23,7 @@ export default function SignIn() {
     if (response?.error) {
       setError(response.error);
     } else {
-      router.push("/");
+      router.push("/dashboard");
     }
   };
 

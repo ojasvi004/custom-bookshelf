@@ -25,7 +25,7 @@ const Signup = () => {
       });
       if (response.status === 201) {
         console.log("registration successful", response);
-        router.push("/");
+        router.push("/dashboard");
 
       }
     } catch (error) {
