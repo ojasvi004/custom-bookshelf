@@ -1,5 +1,5 @@
 {
-  "name": "bookshelf3",
+  "name": "bookshelf",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,18 +9,30 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@prisma/client": "^5.20.0",
+    "axios": "^1.7.7",
+    "bcryptjs": "^2.4.3",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.446.0",
+    "next": "14.2.13",
+    "next-auth": "^4.24.8",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.13"
+    "tailwind-merge": "^2.5.2",
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
     "eslint": "^8",
-    "eslint-config-next": "14.2.13"
+    "eslint-config-next": "14.2.13",
+    "postcss": "^8",
+    "prisma": "^5.20.0",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
   }
 }
