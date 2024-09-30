@@ -18,29 +18,22 @@ model User {
   username String        @unique
   email    String        @unique
   password String?
-  books    Book[]
+  books    Book[]        @relation("UserBooks")
   shelves  CustomShelf[]
 }
 
 model Book {
-  id            String       @id @default(uuid())
-  title         String
-  author        String
-  status        String
-  description   String
-  publishedDate String?
-  thumbnailUrl  String?
-  googleBooksId String?      @unique
-  isbn          String?
-  userId        String
-  user          User         @relation(fields: [userId], references: [id])
-  CustomShelf   CustomShelf? @relation(fields: [customShelfId], references: [id])
-  customShelfId String?
+  id              String       @id 
+  userId          String
+  user            User         @relation("UserBooks", fields: [userId], references: [id])
+  customShelfName String?
+  customShelf     CustomShelf? @relation(fields: [customShelfName], references: [name])
 }
+
 
 model CustomShelf {
   id     String @id @default(uuid())
-  name   String
+  name   String @unique
   userId String
   user   User   @relation(fields: [userId], references: [id])
   books  Book[]

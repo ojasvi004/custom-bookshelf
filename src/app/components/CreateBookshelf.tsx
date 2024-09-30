@@ -31,7 +31,7 @@ const CreateBookshelf: React.FC<CreateBookshelfProps> = ({ userId }) => {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col mb-4 ml-4">
       <h1 className="text-lg font-bold text-stone-700 font-serif mb-2">
-        Add a Shelf:
+        Add a Shelf: 
       </h1>
       <div className="flex items-center">
         <Input
