@@ -31,7 +31,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onBookSelect, userId, shelfName }
       };
 
       const response = await axios.post("/api/book", payload);
-      console.log("response:", response.data);
+      console.log("api response:", response.data);
 
       onBookSelect(book);
       setQuery("");

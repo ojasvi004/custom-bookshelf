@@ -17,7 +17,7 @@ interface Book {
 const BookshelfPage = () => {
   const [userId, setUserId] = useState("");
   const [books, setBooks] = useState<Book[]>([]);
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
   const { shelfName } = useParams();
 
   useEffect(() => {
@@ -36,14 +36,21 @@ const BookshelfPage = () => {
     const fetchBooks = async () => {
       setLoading(true);
       try {
-        let bookIds: string[];
+        let bookIds: string[] = [];
 
-        if (shelfName === "dashboard" || !shelfName) {
+        if (shelfName === "dashboard") {
           const response = await axios.get("/api/book");
           bookIds = response.data.map((book: { id: string }) => book.id);
         } else {
           const response = await axios.get(`/api/book?shelf=${shelfName}`);
-          bookIds = response.data.map((book: { id: string }) => book.id);
+
+          if (response.data) {
+            response.data.forEach((book: { id: string; customShelfName: string }) => {
+              if (book.customShelfName === shelfName) {
+                bookIds.push(book.id);
+              }
+            });
+          }
         }
 
         const bookDetails = await Promise.all(
@@ -56,17 +63,18 @@ const BookshelfPage = () => {
             return {
               id: bookId,
               title: volumeInfo.title,
-              authors: volumeInfo.authors || ["unknown Author"],
+              authors: volumeInfo.authors || ["Unknown Author"],
               thumbnail: volumeInfo.imageLinks?.thumbnail || "",
             };
           })
         );
 
         setBooks(bookDetails);
+        console.log("fetched books:", bookDetails);
       } catch (error) {
         console.log("error fetching books:", error);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
@@ -74,27 +82,23 @@ const BookshelfPage = () => {
   }, [shelfName]);
 
   return (
-    <div>
+    <div className="flex flex-col">
       <Layout>
-        <h1>Shelf name: {shelfName || "All Books"}</h1>
         {userId ? (
-          <div>
+          <div className="w-full flex justify-center mb-4">
             <SearchBar
               userId={userId}
               onBookSelect={(book) => console.log(book)}
               shelfName={shelfName}
             />
-            {loading ? ( 
-              <Loader2 className="size-9 animate-spin" />
-            ) : (
-              <ShowBooks books={books} />
-            )}
           </div>
         ) : (
           <Loader2 className="size-9 animate-spin" />
         )}
+        <ShowBooks books={books} />
       </Layout>
     </div>
   );
 };
+
 export default BookshelfPage;
