@@ -45,11 +45,13 @@ const BookshelfPage = () => {
           const response = await axios.get(`/api/book?shelf=${shelfName}`);
 
           if (response.data) {
-            response.data.forEach((book: { id: string; customShelfName: string }) => {
-              if (book.customShelfName === shelfName) {
-                bookIds.push(book.id);
+            response.data.forEach(
+              (book: { id: string; customShelfName: string }) => {
+                if (book.customShelfName === shelfName) {
+                  bookIds.push(book.id);
+                }
               }
-            });
+            );
           }
         }
 
@@ -81,10 +83,23 @@ const BookshelfPage = () => {
     fetchBooks();
   }, [shelfName]);
 
+  const handleBookDelete = async (id: string) => {
+    try {
+      const response = await axios({
+        method: "DELETE",
+        url: "/api/book",
+        data: { bookId: id },
+      });
+      console.log("book deleted:", response);
+      setBooks(books.filter((book) => book.id !== id));
+    } catch (error) {
+      console.error("error deleting bookshelf:", error);
+    }
+  };
   return (
     <div className="flex flex-col">
       <Layout>
-        {userId ? (
+        {/* {userId ? (
           <div className="w-full flex justify-center mb-4">
             <SearchBar
               userId={userId}
@@ -94,8 +109,8 @@ const BookshelfPage = () => {
           </div>
         ) : (
           <Loader2 className="size-9 animate-spin" />
-        )}
-        <ShowBooks books={books} />
+        )} */}
+        <ShowBooks books={books} handleBookDelete={handleBookDelete} />
       </Layout>
     </div>
   );

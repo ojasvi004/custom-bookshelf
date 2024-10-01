@@ -24,13 +24,22 @@ export async function POST(request: Request) {
   }
 }
 
-
 export async function GET() {
   try {
     const books = await db.book.findMany();
-    return NextResponse.json(books, {status: 200});
+    return NextResponse.json(books, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
-
+  }
+}
+export async function DELETE(request: Request) {
+  try {
+    const { bookId } = await request.json();
+    const response = await db.customShelf.delete({
+      where: { id: bookId },
+    });
+    return NextResponse.json(response, { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ error: "server error" }, { status: 500 });
   }
 }

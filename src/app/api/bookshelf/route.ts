@@ -45,3 +45,16 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "server error" }, { status: 500 });
   }
 }
+
+export async function DELETE(request: Request) {
+  try {
+    const { bookshelfId } = await request.json(); 
+    const response = await db.customShelf.delete({
+      where: { id: bookshelfId },
+    });
+    return NextResponse.json(response, { status: 200 });
+  } catch (error) {
+    console.log("error deleting bookshelf:", error);
+    return NextResponse.json({ error: "server error" }, { status: 500 });
+  }
+}

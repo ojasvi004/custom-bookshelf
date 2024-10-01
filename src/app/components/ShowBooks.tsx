@@ -1,4 +1,5 @@
 import React from "react";
+import { FaRegTrashCan } from "react-icons/fa6";
 
 interface Book {
   id: string;
@@ -7,7 +8,12 @@ interface Book {
   thumbnail: string;
 }
 
-const ShowBooks: React.FC<{ books: Book[] }> = ({ books }) => {
+interface ShowBooksProps {
+  books: Book[];
+  handleBookDelete: (id: string) => void;
+}
+
+const ShowBooks: React.FC<ShowBooksProps> = ({ books, handleBookDelete }) => {
   return (
     <div className="p-4 bg-stone-50">
       {books.length > 0 ? (
@@ -28,6 +34,8 @@ const ShowBooks: React.FC<{ books: Book[] }> = ({ books }) => {
                 <div>
                   <h3 className="text-lg font-medium text-stone-800">
                     {book.title}
+                    <button onClick={()=>handleBookDelete(book.id)}><FaRegTrashCan className="text-red-700 text-base ml-1"/></button>
+
                   </h3>
                   <p className="text-sm text-stone-600">
                     {book.authors.join(", ")}
