@@ -95,7 +95,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ onBookSelect, userId, shelfName }
       />
       {loading && (
         <p className="text-gray-500">
-          <Loader2 className="size-9 animate-spin" />
         </p>
       )}
       {suggestions.length > 0 && (

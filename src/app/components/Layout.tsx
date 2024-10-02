@@ -11,6 +11,7 @@ import { FaRegTrashCan } from "react-icons/fa6";
 const Layout = ({ children }: { children: ReactNode }) => {
   interface Bookshelf {
     id: string;
+    name: string; 
   }
 
   const [bookshelves, setBookshelves] = useState<Bookshelf[]>([]);
@@ -56,58 +57,69 @@ const Layout = ({ children }: { children: ReactNode }) => {
   };
 
   function toggleEdit() {
-    setIsEditMode((prev) => !prev);  
+    setIsEditMode((prev) => !prev);
   }
+
   return (
-    <div>
-      <div className="flex justify-between items-center">
+    <div className="flex flex-col h-full">
+      <div className="flex justify-between items-center p-4 bg-gray-50">
         <Link
           href={"/dashboard"}
-          className="text-3xl font-bold mb-4 text-stone-700 font-serif mt-4 ml-3"
+          className="text-3xl font-bold text-stone-700 font-serif"
         >
           My Books
         </Link>
         {userId ? (
-          <div className="flex justify-center mb-4 mt-5">
+          <div className="w-96">
             <SearchBar
               userId={userId}
-              onBookSelect={(book) => console.log("ojasvi", book)}
+              onBookSelect={(book) => console.log("Selected book:", book)}
               shelfName={Array.isArray(shelfName) ? shelfName[0] : shelfName}
             />
           </div>
         ) : (
-          <Loader2 className="size-9 animate-spin" />
+          <Loader2 className="animate-spin w-6 h-6" />
         )}
-        {/* <SearchBar userId={userId} onBookSelect={(book) => console.log(book)} /> */}
-        <div className="mr-3">
+        <div>
           <LogoutButton />
         </div>
       </div>
-      <hr />
-      <h2 className="ml-4">Bookshelves <button onClick={toggleEdit} className="text-xs italic">(Edit)</button></h2>
-      <ul>
-        {bookshelves.map((shelf) => (
-          <li key={shelf.id} className="ml-5 text-lg">
-            <Link href={`/dashboard/${shelf.name}`}>
-              <span
-                className={`${
-                  shelf.name === shelfName
-                    ? "font-bold text-black"
-                    : "text-teal-800"
-                }`}
-              >
-                {shelf.name}
-              </span>
-            </Link>
-            {isEditMode ? <button onClick={() => handleDelete(shelf.id)}><FaRegTrashCan className="text-red-700 text-base ml-1"/></button> : ''}
-            
-          </li>
-        ))}
-      </ul>
-      <div className="flex justify-between">
-        {userId && <CreateBookshelf userId={userId}/>}
+
+      <div className="flex h-full">
+        <div className="w-1/4 p-4 bg-gray-100 h-full">
+          <h2 className="text-xl mb-4">
+            Bookshelves
+            <button onClick={toggleEdit} className="text-xs italic">
+              (Edit)
+            </button>
+          </h2>
+          <ul>
+            {bookshelves.map((shelf) => (
+              <li key={shelf.id} className="mb-2">
+                <Link href={`/dashboard/${shelf.name}`}>
+                  <span
+                    className={`${
+                      shelf.name === shelfName
+                        ? "font-bold text-black"
+                        : "text-teal-800"
+                    }`}
+                  >
+                    {shelf.name}
+                  </span>
+                </Link>
+                {isEditMode && (
+                  <button onClick={() => handleDelete(shelf.id)}>
+                    <FaRegTrashCan className="text-red-700 text-base ml-1" />
+                  </button>
+                )}
+              </li>
+            ))}
+          </ul>
+          {userId && <CreateBookshelf userId={userId} />}
+        </div>
+
+        <div className="w-3/4 p-6 overflow-y-auto">{children}</div>
       </div>
-      <div>{children}</div>
     </div>
   );
 };

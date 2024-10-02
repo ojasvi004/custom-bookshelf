@@ -1,9 +1,19 @@
 import db from "@/db/db";
 import { NextResponse } from "next/server";
+import z from "zod";
+
+const bookshelfSchema = z
+  .string()
+  .min(3, "name must be at least 3 chars long")
+  .max(15);
 
 export async function POST(request: Request) {
   try {
     const { bookshelfName, userId } = await request.json();
+    const result = bookshelfSchema.safeParse(bookshelfName);
+    if (!result.success) {
+      return NextResponse.json({ error: "invalid input" }, { status: 400 });
+    }
 
     const checkBookshelfName = await db.customShelf.findFirst({
       where: { name: bookshelfName, userId },
@@ -48,7 +58,7 @@ export async function GET(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
-    const { bookshelfId } = await request.json(); 
+    const { bookshelfId } = await request.json();
     const response = await db.customShelf.delete({
       where: { id: bookshelfId },
     });

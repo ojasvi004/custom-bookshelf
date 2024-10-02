@@ -23,6 +23,7 @@ const CreateBookshelf: React.FC<CreateBookshelfProps> = ({ userId }) => {
       }
       console.log("bookshelf created:", response.data);
       setBookshelfName("");
+      window.location.reload();
     } catch (error) {
       console.error("error creating bookshelf:", error);
     }
@@ -31,17 +32,16 @@ const CreateBookshelf: React.FC<CreateBookshelfProps> = ({ userId }) => {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col mb-4 ml-4">
       <h1 className="text-lg font-bold text-stone-700 font-serif mb-2">
-        Add a Shelf: 
+        Add a Shelf:
       </h1>
       <div className="flex items-center">
         <Input
           type="text"
           value={bookshelfName}
           onChange={(e) => setBookshelfName(e.target.value)}
-          className="border px-2 py-1 h-8 flex-grow w-40 text-xs rounded-full mr-2"
+          className="border px-2 py-1 h-8 w-40 text-xs rounded-full mr-2"
           required
         />
-        {error && <p className="text-red-800 text-sm">{error}</p>}
         <button
           type="submit"
           className="bg-stone-700 rounded-md hover:bg-stone-600 text-white px-2 h-8 text-xs"
@@ -49,6 +49,7 @@ const CreateBookshelf: React.FC<CreateBookshelfProps> = ({ userId }) => {
           Add
         </button>
       </div>
+      {error && <p className="text-red-800 text-sm mt-2">{error}</p>}
     </form>
   );
 };

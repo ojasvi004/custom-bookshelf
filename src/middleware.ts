@@ -12,10 +12,22 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
   }
 
-  if (!isPublicPath && !token) {
+  const isProtectedPath =
+    path.startsWith("/dashboard")
+
+  if (isProtectedPath && !token) {
     return NextResponse.redirect(new URL("/signin", request.nextUrl));
   }
+
+  return NextResponse.next();
 }
+
 export const config = {
-  matcher: ["/", "/signin", "/signup", "/dashboard"],
+  matcher: [
+    "/", 
+    "/signin", 
+    "/signup", 
+    "/dashboard",
+    "/dashboard/:path*"
+  ],
 };

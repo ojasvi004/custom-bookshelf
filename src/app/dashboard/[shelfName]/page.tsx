@@ -96,21 +96,15 @@ const BookshelfPage = () => {
       console.error("error deleting bookshelf:", error);
     }
   };
+
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col h-full">
       <Layout>
-        {/* {userId ? (
-          <div className="w-full flex justify-center mb-4">
-            <SearchBar
-              userId={userId}
-              onBookSelect={(book) => console.log(book)}
-              shelfName={shelfName}
-            />
-          </div>
+        {loading ? (
+          <Loader2 className="animate-spin w-8 h-8 mx-auto" />
         ) : (
-          <Loader2 className="size-9 animate-spin" />
-        )} */}
-        <ShowBooks books={books} handleBookDelete={handleBookDelete} />
+          <ShowBooks books={books} handleBookDelete={handleBookDelete} />
+        )}
       </Layout>
     </div>
   );
