@@ -1,7 +1,6 @@
 "use client";
 import { useParams } from "next/navigation";
 import Layout from "@/app/components/Layout";
-import SearchBar from "@/app/components/SearchBar";
 import { useEffect, useState } from "react";
 import ShowBooks from "@/app/components/ShowBooks";
 import axios from "axios";

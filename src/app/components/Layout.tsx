@@ -5,7 +5,7 @@ import LogoutButton from "./LogoutButton";
 import { useParams } from "next/navigation";
 import CreateBookshelf from "./CreateBookshelf";
 import SearchBar from "./SearchBar";
-import { Heading1, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { FaRegTrashCan } from "react-icons/fa6";
 
 const Layout = ({ children }: { children: ReactNode }) => {
